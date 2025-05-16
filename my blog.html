@@ -1,0 +1,60 @@
+<main>
+        <article>
+            <h2>My First Post: The Challenge of PostgreSQL HA</h2>
+            <p>Setting up High Availability (HA) in PostgreSQL was one of the most challenging experiences I had. From configuring Patroni and etcd to dealing with connection pooling via pgBouncer, every step had its own pitfalls. In this post, I will break down the steps and solutions that worked for me.</p>
+        </article>
+
+        <article>
+            <h2>ORA-01578: Data Corruption Index Fix</h2>
+            <p><strong>Problem:</strong> ORA-01578: data block corrupted (file # 103, block # 508084)</p>
+            <p><strong>Solution:</strong></p>
+            <pre>
+SELECT PARTITION_NAME, SEGMENT_NAME, SEGMENT_TYPE, TABLESPACE_NAME, OWNER
+FROM DBA_EXTENTS 
+WHERE FILE_ID = 103 AND 508084 BETWEEN BLOCK_ID AND BLOCK_ID + BLOCKS - 1;
+
+ALTER INDEX IGULER.IDX_LOGINC REBUILD PARTITION SYS_P68716 LOGGING ONLINE PARALLEL 8;
+ALTER INDEX IGULER.IDX_LOGINC NOPARALLEL;
+            </pre>
+        </article>
+
+        <article>
+            <h2>ORA-00001: Unique Constraint Violation</h2>
+            <p><strong>Problem:</strong> ORA-00001: unique constraint violated</p>
+            <p><strong>Solution:</strong> Check for duplicate values and ensure the column is meant to be unique.</p>
+            <pre>
+ALTER TABLE MY_TABLE ADD CONSTRAINT MY_TABLE_PK PRIMARY KEY (COLUMN_NAME);
+            </pre>
+        </article>
+
+        <article>
+            <h2>ORA-06512: PL/SQL Numeric or Value Error</h2>
+            <p><strong>Problem:</strong> ORA-06512: at "SYS.DBMS_SQL", line 172</p>
+            <p><strong>Solution:</strong> Ensure the variable types are compatible and within range.</p>
+            <pre>
+DECLARE
+    v_number NUMBER(5);
+BEGIN
+    v_number := 100000; -- Value exceeds limit
+END;
+            </pre>
+        </article>
+
+        <article>
+            <h2>ORA-12514: TNS: Listener Does Not Currently Know of Service</h2>
+            <p><strong>Problem:</strong> ORA-12514: TNS: listener does not currently know of service requested</p>
+            <p><strong>Solution:</strong> Ensure the listener is running and the service name is correct.</p>
+            <pre>
+lsnrctl status
+            </pre>
+        </article>
+
+        <article>
+            <h2>ORA-00600: Internal Error Code</h2>
+            <p><strong>Problem:</strong> ORA-00600: internal error code, arguments: [729]</p>
+            <p><strong>Solution:</strong> Check Oracle Metalink and review the trace file for details.</p>
+            <pre>
+SELECT * FROM V$SESSION WHERE SID = 1234;
+            </pre>
+        </article>
+</main>
